@@ -1,0 +1,153 @@
+<!doctype html>
+<html>
+
+<head>
+
+<style>
+#editor {
+	border: solid 1px #000;
+	background-color: #CCC;
+	padding:20px;
+	margin-right:20px;
+	
+	float: left;
+
+	width:50%;
+	height:600px;
+	
+}
+
+#console {
+	width:30%;
+	overflow: auto;
+	border: solid 1px #000;
+	background-color: #CFC;
+	padding:20px;
+	height:800px;
+}
+
+
+#toolbar {
+	border: solid 1px #000;
+	background-color: #CCC;
+	height: 30px;
+	margin-bottom:20px;
+}
+
+.component {
+	background-color: #EEE;
+	
+	display:inline-block;
+	border: solid 1px #F00;
+	min-height:100px;
+	min-width:100px;
+	
+	overflow: auto;
+	resize: both;
+	
+}
+
+
+
+.GC_EditorButton {
+	width:20px;
+	height:20px;
+	background-color: #DDD;
+	background-repeat: no-repeat;
+	margin: 2px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div id="toolbar"></div>
+
+<div id="editor" contenteditable="true"></div>
+<textarea id="console"></textarea>
+
+</body>
+
+
+<script src="gc_editor.js"></script>
+<script src="gc_editorbutton.js"></script>
+
+<script>
+
+
+
+
+function GC_EditorObject()
+{
+	this.element=null;
+}
+
+
+GC_EditorObject.prototype.getElement=function() {
+	if(!this.element) {
+		this.element=document.createElement('div');
+		this.element.className='component';
+		this.element.setAttribute('contenteditable', false);
+	}
+	return this.element;
+}
+
+
+
+
+var toolbar=document.getElementById('toolbar');
+var consolePanel=document.getElementById('console');
+
+var editor=new GC_Editor(document.getElementById('editor'))
+
+
+var button=new GC_EditorButton(editor,{
+	click: function() {
+		var object=new GC_EditorObject();
+		var element=object.getElement();
+		this.editor.insertAtCarret(element, true);
+	}
+});
+button.render(toolbar);
+
+
+var button=new GC_EditorButton(editor,{
+	icon: 'icon/link.png',
+	click: function() {
+		document.execCommand("CreateLink", false, "http://stackoverflow.com/");
+	}
+});
+button.render(toolbar);
+
+
+
+var button=new GC_EditorButton(editor,{
+	icon: 'icon/link_unchain.png',
+	click: function() {
+		document.execCommand("unlink", false, "http://stackoverflow.com/");
+	}
+});
+button.render(toolbar);
+
+
+var button=new GC_EditorButton(editor,{
+	icon: 'icon/save_as.png',
+	click: function() {
+		consolePanel.value=this.editor.getContent();
+	}
+});
+button.render(toolbar);
+
+
+
+
+
+
+
+
+</script>
+
+</html>
+
