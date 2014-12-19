@@ -34,17 +34,23 @@
 	margin-bottom:20px;
 }
 
-.component {
+.gc_editor_componentcontainer {
+	display:inline-block;
+}
+
+.gc_editor_component {
 	background-color: #EEE;
 	
 	display:inline-block;
 	border: solid 1px #F00;
+
 	min-height:100px;
 	min-width:100px;
 	
 	overflow: auto;
 	resize: both;
-	
+
+	/*float: left;*/
 }
 
 
@@ -55,6 +61,29 @@
 	background-color: #DDD;
 	background-repeat: no-repeat;
 	margin: 2px;
+}
+
+.gc_editor_content {
+	border: solid 1px #0A0;
+}
+
+.gc_editor_end {
+	border: solid 1px #A00;
+	background-color:#F00;
+	display:inline-block;
+	display:none;
+
+}
+.gc_editor_start {
+	border: solid 1px #A00;
+	background-color:#0F0;
+	display:inline-block;
+	display:none;
+}
+
+
+p {
+	margin: 0;
 }
 
 </style>
@@ -73,26 +102,13 @@
 
 <script src="gc_editor.js"></script>
 <script src="gc_editorbutton.js"></script>
+<script src="gc_editorobject.js"></script>
 
 <script>
 
 
 
 
-function GC_EditorObject()
-{
-	this.element=null;
-}
-
-
-GC_EditorObject.prototype.getElement=function() {
-	if(!this.element) {
-		this.element=document.createElement('div');
-		this.element.className='component';
-		this.element.setAttribute('contenteditable', false);
-	}
-	return this.element;
-}
 
 
 
@@ -100,14 +116,18 @@ GC_EditorObject.prototype.getElement=function() {
 var toolbar=document.getElementById('toolbar');
 var consolePanel=document.getElementById('console');
 
-var editor=new GC_Editor(document.getElementById('editor'))
+var editor=new GC_Editor(document.getElementById('editor'), {
+	keyup: function(event) {
+		consolePanel.value=this.getContent();
+	}
+})
 
 
 var button=new GC_EditorButton(editor,{
 	click: function() {
 		var object=new GC_EditorObject();
 		var element=object.getElement();
-		this.editor.insertAtCarret(element, true);
+		this.editor.insertNodeAtCaret(element, true);
 	}
 });
 button.render(toolbar);
