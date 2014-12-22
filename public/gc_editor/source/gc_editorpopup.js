@@ -86,6 +86,7 @@ GC_EditorPopup.prototype.openAttribute=function(descriptor, callbackOk, callback
 
 
 
+	var self=this;
 	var clickEvent=function(event) {
 
 		var valueElements=this.querySelectorAll('.gc_editor_attribute_value');
@@ -95,7 +96,7 @@ GC_EditorPopup.prototype.openAttribute=function(descriptor, callbackOk, callback
 			var name=valueElements[i].getAttribute('name');
 			values[name]=valueElements[i].value;
 		}
-		callbackOk(values, this.editor);
+		callbackOk(values, self.editor);
 
 	}
 

@@ -20,18 +20,40 @@ html {
 
 
 
+.editorContainer {
+	float: left;
+	width:50%;
+	margin-right:20px;
+}
+
+#toolbar {
+	border: solid 1px #000;
+	background-color: #FFF;
+	height: 30px;
+}
+
+
+
+.GC_EditorButton {
+	width:20px;
+	height:20px;
+	background-color: #FFF;
+	border: none;
+	background-repeat: no-repeat;
+	margin: 2px;
+}
+.GC_EditorButton:hover {
+	border: inset 1px;
+}
+
 
 
 
 #editor {
 	border: solid 1px #000;
-	background-color: #CCC;
+	background-color: #FFF;
 	padding:20px;
-	margin-right:20px;
-	
-	float: left;
 
-	width:50%;
 	height:600px;
 	
 }
@@ -45,13 +67,6 @@ html {
 	height:800px;
 }
 
-
-#toolbar {
-	border: solid 1px #000;
-	background-color: #CCC;
-	height: 30px;
-	margin-bottom:20px;
-}
 
 .gc_editor_componentcontainer {
 	display:inline-block;
@@ -74,14 +89,6 @@ html {
 }
 
 
-
-.GC_EditorButton {
-	width:20px;
-	height:20px;
-	background-color: #DDD;
-	background-repeat: no-repeat;
-	margin: 2px;
-}
 
 .gc_editor_content {
 	border: solid 1px #0A0;
@@ -172,9 +179,14 @@ p {
 
 <body>
 
-<div id="toolbar"></div>
 
+
+<div class="editorContainer">
+	<div id="toolbar"></div>
 <div id="editor" contenteditable="true"><div class="gc_editor_componentcontainer" draggable="true"><div class="gc_editor_component" contenteditable="false" data-component="{&quot;type&quot;:&quot;datagrid&quot;,&quot;graphType&quot;:&quot;graphline&quot;,&quot;data&quot;:[{&quot;value&quot;:15,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;sdfv&quot;},{&quot;value&quot;:20,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;fgsdf&quot;},{&quot;value&quot;:89,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;dgfds&quot;},{&quot;value&quot;:48,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;qssd&quot;},{&quot;value&quot;:5,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;sffg&quot;}],&quot;method&quot;:&quot;openDataGridPopup&quot;,&quot;builder&quot;:&quot;GC_Editor_LineChart&quot;}"><div><canvas height="150" width="300" style="width: 300px; height: 150px;"></canvas></div></div></div><div class="gc_editor_componentcontainer" draggable="true"><div class="gc_editor_component" contenteditable="false" data-component="{&quot;type&quot;:&quot;datagrid&quot;,&quot;graphType&quot;:&quot;graphline&quot;,&quot;data&quot;:[{&quot;value&quot;:10,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;ddf&quot;},{&quot;value&quot;:15,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;dff&quot;},{&quot;value&quot;:12,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;dfg&quot;},{&quot;value&quot;:50,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;dfz&quot;},{&quot;value&quot;:48,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;zf&quot;}],&quot;method&quot;:&quot;openDataGridPopup&quot;,&quot;builder&quot;:&quot;GC_Editor_LineChart&quot;}"><div><canvas height="150" width="300" style="width: 300px; height: 150px;"></canvas></div></div><p><br></p><p><br></p></div><div></div></div>
+
+
+</div>
 
 <textarea id="console"></textarea>
 
@@ -298,11 +310,11 @@ var WorkspaceConfiguration={
 var dropZone=document.getElementById('editor');
 var uploadURL=WorkspaceConfiguration.imageUploadURL;
 
-/*
+
 var drop =new FileDrop(dropZone, uploadURL, {
 	success: function(string) {
 
-		eval('var data='+string);
+		var data=JSON.parse(string);
 
 
 		for(var i=0; i<data.length; i++) {
@@ -343,8 +355,6 @@ var drop =new FileDrop(dropZone, uploadURL, {
 		}
 	}
 });
-*/
-
 
 
 
