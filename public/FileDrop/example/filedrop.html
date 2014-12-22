@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+
+<script src="../source/filedrop.js"></script>
+
+<style>
+
+.container {
+	width:800px;
+	margin:auto;
+	font-family: arial;
+}
+
+pre {border-bottom: solid 1px #999;}
+pre:last-child {border-bottom: none;}
+
+div {box-sizing: border-box;}
+
+#uploadResult {
+	outline: solid 1px #999;
+	padding:3px;
+	overflow: auto;
+	width:400px;
+	height:250px;
+}
+
+
+
+
+
+
+#filedrop {
+	height: 250px;
+	width: 250px;
+	background-color:#CCC;
+	float: left;
+	margin-right: 20px;
+	font-size:30px;
+	color:#999;
+	text-align: center;
+	padding-top:80px;
+	transition: all 0.3s;
+}
+
+#filedrop.dragOver {
+	background-color:#FFA;
+}
+
+
+
+
+
+
+
+</style>
+
+</head>
+
+<body>
+
+<div class="container">
+	<h1>File drop</h1>
+	
+	<div id="filedrop" class="">Drop file here</div>
+	
+	<div id="uploadResult"></div>
+	</body>
+</div>
+
+
+<script>
+
+
+
+
+
+
+
+
+var dropZone=document.getElementById('filedrop');
+var uploadURL='post.php';
+
+var drop =new FileDrop(dropZone, uploadURL, {
+	success: function(data) {
+		document.getElementById('uploadResult').innerHTML+='<pre>'+data+'</pre>';
+	}
+});
+
+
+</script>
+
+</html>
