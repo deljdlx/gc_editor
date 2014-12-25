@@ -1,0 +1,139 @@
+
+.GC_Editor {
+    border: solid 1px #000;
+    height:100%;
+    position: relative;
+    box-sizing: border-box;
+}
+
+.GC_Editor div {
+    box-sizing: border-box;
+}
+
+
+
+.GC_EditorWrapper {
+    position: relative;
+    overflow: auto;
+    /*height:100%;*/
+    border: solid 1px #000;
+    border-top: none;
+    border-bottom: none;
+    height: calc(100% - 72px);
+    height: -moz-calc(100% - 72px);
+    height: -webkit-calc(100% - 72px);
+    height: -o-calc(100% - 72px);
+}
+
+
+
+
+/*===========================================*/
+.GC_Editor .GC_EditorSourceCode {
+    position: absolute;
+    width:100%;
+    height:100%;
+    background-color: rgba(255,0,0,0.5);
+    top: 0px;
+    left:0px;
+}
+
+
+
+
+.gc_editor_attribute {
+    border: solid 1px rgba(255, 255, 255, 0.1);
+    padding: 3px;
+}
+
+
+.gc_editor_attribute label {
+    display:inline-block;
+    width: 150px;
+}
+
+
+.gc_editor_attribute select {
+    width:200px;
+    color: #666666;
+}
+
+.gc_editor_attribute input {
+    width:200px;
+    color: #666666;
+}
+
+
+
+.gc_editor_button_container {
+    text-align: right;
+    margin-top:30px;
+}
+
+
+
+.gc_editor_button_container button{
+    color: #666666;
+}
+
+.gc_editor_button_container button:first-child {
+    margin-right:3px;
+}
+
+
+
+
+
+
+.GC_EditorContainerTopToolbar {
+    height:36px;
+    padding-top: 5px;
+    border-top: solid 5px #000;
+    border-bottom: solid 1px #000;
+    width:100%;
+    padding-left:5px;
+}
+
+.GC_EditorContainerLeftToolbar {
+    margin-bottom: 5px;
+    padding-top: 5px;
+    height:100%;
+    float: left;
+    overflow: auto;
+    width:32px;
+    padding-left:5px;
+}
+
+.GC_EditorContainerRightToolbar {
+    margin-bottom: 5px;
+    padding-top: 5px;
+    height:100%;
+    float: right;
+    overflow: auto;
+    width:32px;
+    padding-left:5px;
+}
+
+
+
+
+.GC_EditorContainerBottomToolbar {
+    height:36px;
+    padding-top: 5px;
+    border-top: solid 1px #000;
+    width:100%;
+    padding-left:5px;
+}
+
+
+
+
+
+
+
+
+
+
+#simplemodal-container {
+    padding: 0;
+}
