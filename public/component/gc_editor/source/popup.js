@@ -14,12 +14,15 @@ GC_Editor.Popup.prototype.close=function() {
 }
 
 
-GC_Editor.Popup.prototype.openComponent=function(componentContainer) {
-	var dataComponent=JSON.parse(componentContainer.element.getAttribute('data-component'));
+GC_Editor.Popup.prototype.openComponent=function(component) {
 
-	var popupMethod=dataComponent.method;
+	//console.debug(componentContainer.getData());
 
-	this.editor[popupMethod](componentContainer, dataComponent);
+	var componentData=component.getComponentDescriptor();
+
+	var popupMethod=componentData.method;
+
+	this.editor[popupMethod](component);
 
 	//alert(popupMethod);
 

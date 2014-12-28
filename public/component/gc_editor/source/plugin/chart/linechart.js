@@ -3,21 +3,23 @@ GC_Editor.LineChart=function(editor)
 	this.editor=editor;
 	this.chart=null;
 	this.element=null;
+
 }
 
 
-GC_Editor.LineChart.prototype.loadData=function(data) {
-	this.data=data;
+GC_Editor.LineChart.prototype.prepareChartData=function() {
+
 
 	var labels=[];
 	var values=[];
 
-	for(var i=0; i<this.data.length; i++) {
-		labels.push(this.data[i].label);
-		values.push(this.data[i].value);
+	for(var i=0; i<this.componentData.length; i++) {
+		labels.push(this.componentData[i].label);
+		values.push(this.componentData[i].value);
 	}
 
-	this.chartData = {
+
+	var chartData = {
 		labels : labels,
 		datasets : [
 			{
@@ -32,6 +34,11 @@ GC_Editor.LineChart.prototype.loadData=function(data) {
 			}
 		]
 	}
+
+	console.debug(chartData);
+
+	return chartData;
+
 }
 
 
@@ -41,15 +48,17 @@ GC_Editor.LineChart.prototype.getChartType=function() {
 }
 
 
-GC_Editor.LineChart.prototype.getComponentData=function() {
+
+GC_Editor.LineChart.prototype.getComponentDescriptor=function() {
 	return componentData= {
 		type: 'datagrid',
 		graphType: 'graphline',
-		data: this.data,
+		data: this.componentData,
 		method: 'openDataGridPopup',
 		builder: 'LineChart'
 	};
 }
+
 
 
 

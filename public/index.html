@@ -48,7 +48,6 @@
 
 
 
-<script type="text/javascript" src="gc_editor/source/plugin/generatedata.js"></script>
 
 
 <script type="text/javascript" src="component/Chart.js/Chart.js"></script>
@@ -103,17 +102,20 @@
 <link type='text/css' href='component/gc_editor/css/editor.css' rel='stylesheet' media='screen' />
 
 <script src="component/gc_editor/source/gc_editor.js"></script>
+<script src="component/gc_editor/source/componentmanager.js"></script>
 
-<script src="component/gc_editor/source/gc_editortoolbar.js"></script>
+<script src="component/gc_editor/source/toolbar.js"></script>
 
-<script src="component/gc_editor/source/gc_editorpopup.js"></script>
+<script src="component/gc_editor/source/popup.js"></script>
 
-<script src="component/gc_editor/source/gc_editorbutton.js"></script>
-<script src="component/gc_editor/source/gc_editorobject.js"></script>
+<script src="component/gc_editor/source/button.js"></script>
+<script src="component/gc_editor/source/componentcontainer.js"></script>
 
 
-<script src="component/gc_editor/source/plugin/gc_editor_datagrid.js"></script>
-<script src="component/gc_editor/source/plugin/gc_editor_linechart.js"></script>
+<script src="component/gc_editor/source/plugin/chart/datagrid.js"></script>
+<script src="component/gc_editor/source/plugin/chart/chart.js"></script>
+<script src="component/gc_editor/source/plugin/chart/linechart.js"></script>
+<script src="component/gc_editor/source/plugin/chart/piechart.js"></script>
 
 
 
@@ -187,20 +189,17 @@ html, body {
 .gc_editor_componentcontainer {
 	display:inline-block;
 	vertical-align: top;
-}
-
-.gc_editor_component {
 	background-color: #EEE;
-	
-	display:inline-block;
 	border: solid 1px #F00;
 
-	min-height:100px;
-	min-width:100px;
-	
 	overflow: auto;
 	resize: both;
 
+}
+
+.gc_editor_component {
+	min-height:100px;
+	min-width:100px;
 	/*float: left;*/
 }
 
@@ -303,10 +302,10 @@ p {
 
 		<br/>
 		<div class="gc_editor_componentcontainer" draggable="true" contenteditable="false">
-			<div class="gc_editor_component" contenteditable="false" data-component="{&quot;type&quot;:&quot;datagrid&quot;,&quot;graphType&quot;:&quot;graphline&quot;,&quot;data&quot;:[{&quot;value&quot;:-10,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Janvier&quot;},{&quot;value&quot;:-15,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Février&quot;},{&quot;value&quot;:0,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Mars&quot;},{&quot;value&quot;:10,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Avril&quot;},{&quot;value&quot;:12,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Mai&quot;},{&quot;value&quot;:15,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Juin&quot;},{&quot;value&quot;:22,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Juillet&quot;},{&quot;value&quot;:30,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Août&quot;},{&quot;value&quot;:28,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Septembre&quot;},{&quot;value&quot;:15,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Octobre&quot;},{&quot;value&quot;:10,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Novembre&quot;},{&quot;value&quot;:0,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Décembre&quot;}],&quot;method&quot;:&quot;openDataGridPopup&quot;,&quot;builder&quot;:&quot;GC_Editor_LineChart&quot;}"
+			<div class="gc_editor_component" contenteditable="false" data-component="{&quot;type&quot;:&quot;datagrid&quot;,&quot;graphType&quot;:&quot;graphline&quot;,&quot;data&quot;:[{&quot;value&quot;:-10,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Janvier&quot;},{&quot;value&quot;:-15,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Février&quot;},{&quot;value&quot;:0,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Mars&quot;},{&quot;value&quot;:10,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Avril&quot;},{&quot;value&quot;:12,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Mai&quot;},{&quot;value&quot;:15,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Juin&quot;},{&quot;value&quot;:22,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Juillet&quot;},{&quot;value&quot;:30,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Août&quot;},{&quot;value&quot;:28,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Septembre&quot;},{&quot;value&quot;:15,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Octobre&quot;},{&quot;value&quot;:10,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Novembre&quot;},{&quot;value&quot;:0,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Décembre&quot;}],&quot;method&quot;:&quot;openDataGridPopup&quot;,&quot;instanceOf&quot;:&quot;LineChart&quot;}"
 				 style="height: 100%; width: 100%;">
 				<div style="width: 100%; height: 100%;">
-					<canvas height="516" width="1032" style="width: 1032px; height: 516px;"></canvas>
+					<canvas></canvas>
 				</div>
 			</div>
 		</div>
@@ -362,7 +361,7 @@ editor.create();
 
 
 
-var button=new GC_EditorButton(editor,{
+var button=new GC_Editor.Button(editor,{
 	icon: 'statistics.png',
 	click: function() {
 		editor.openDataGridPopup();

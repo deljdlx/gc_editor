@@ -27,10 +27,39 @@ function GC_Editor(node, options)
 
 	this.bindEvents();
 
+	this.popup=new GC_Editor.Popup(this);
+	this.componentManager=new GC_Editor.ComponentManager(this);
+
+
 	this.parseContent();
 
-	this.popup=new GC_Editor.Popup(this);
 }
+
+
+
+
+
+
+
+GC_Editor.prototype.parseContent=function() {
+
+	var objects=this.element.querySelectorAll('.gc_editor_componentcontainer');
+
+	for(var i=0; i<objects.length; i++) {
+
+		//var object=new GC_Editor.ComponentContainer(this);
+		var component=this.componentManager.getComponentFromElement(objects[i]);
+
+		console.debug(component);
+
+		component.create();
+
+		console.debug(component);
+
+		//object.loadFromNode(objects[i]);
+	}
+}
+
 
 
 
@@ -254,20 +283,6 @@ GC_Editor.prototype.createRightToolbar=function() {
 
 
 
-
-
-
-
-
-GC_Editor.prototype.parseContent=function() {
-
-	var objects=this.element.querySelectorAll('.gc_editor_componentcontainer');
-
-	for(var i=0; i<objects.length; i++) {
-		var object=new GC_Editor.ComponentContainer(this)
-		object.loadFromNode(objects[i])
-	}
-}
 
 
 

@@ -4,35 +4,34 @@ GC_Editor.PieChart=function(editor)
 	
 	this.chart=null;
 	this.element=null;
-	this.chartData=[];
 }
 
 
-
-GC_Editor.PieChart.prototype.loadData=function(data) {
-
-	this.data=data;
-
+GC_Editor.PieChart.prototype.prepareChartData=function() {
 	var labels=[];
 	var values=[];
 
-	for(var i=0; i<data.length; i++) {
-		this.chartData.push({
-			value: data[i].value,
-			lalbe: data[i].label,
+	var formatedData=[];
+
+	for(var i=0; i<this.componentData.length; i++) {
+		formatedData.push({
+			value: this.componentData[i].value,
+			lalbe: this.componentData[i].label,
 			color:"#F7464A",
-			highlight: "#FF5A5E",
+			highlight: "#FF5A5E"
 		});
 	}
+
+	return formatedData;
 }
 
 
 
-GC_Editor.PieChart.prototype.getComponentData=function() {
+GC_Editor.PieChart.prototype.getComponentDescriptor=function() {
 	return {
 		type: 'datagrid',
 		graphType: 'graphpie',
-		data: this.data,
+		data: this.componentData,
 		method: 'openDataGridPopup',
 		builder: 'PieChart'
 	};
@@ -42,7 +41,6 @@ GC_Editor.PieChart.prototype.getComponentData=function() {
 GC_Editor.PieChart.prototype.getChartType=function() {
 	return 'Pie';
 }
-
 
 
 GC_Editor.inherit(GC_Editor.PieChart, GC_Editor.Chart);

@@ -1,18 +1,15 @@
-GC_Editor.DataGrid=function(editor, editorObject, data)
+GC_Editor.DataGrid=function(editor)
 {
 
 	this.element=null;
 	this.editor=editor;
-	this.toolbar=null;
-
-	this.editorObject=editorObject;
-	this.data=data;
-	//this.data=data;
 }
 
-GC_Editor.DataGrid.prototype.loadData=function(data) {
-	this.data=data;	
-}
+GC_Editor.DataGrid.prototype.componentData=null;
+
+
+
+
 GC_Editor.DataGrid.prototype.setEditorObject=function(editorObject) {
 	this.editorObject=editorObject;
 }
@@ -69,16 +66,16 @@ GC_Editor.DataGrid.prototype.getToolbar=function() {
 		var saveButton = document.createElement('button');
 		saveButton.innerHTML = 'Insérer';
 
-		var saveCallback=function() {
-			var chartData=this.getData();
+
+		saveButton.onclick=function() {
+			var chartData=this.getComponentData();
 
 			this.createPieChart(chartData);
 			//this.createLineChart(chartData);
 
 			this.editor.closePopup();
-		}
+		}.bind(this);
 
-		saveButton.onclick=saveCallback.bind(this);
 		toolbar.appendChild(saveButton);
 
 		this.toolbar=toolbar;
@@ -96,9 +93,12 @@ GC_Editor.DataGrid.prototype.createLineChart=function(chartData) {
 }
 
 GC_Editor.DataGrid.prototype.createPieChart=function(chartData) {
+
+
+
 	var chart=new GC_Editor.PieChart(this.editor);
-	chart.setComponentContainer(this.editorObject);
-	chart.loadData(chartData);
+	chart.loadComponentData(chartData);
+
 	chart.create();
 }
 
@@ -107,37 +107,34 @@ GC_Editor.DataGrid.prototype.createPieChart=function(chartData) {
 
 
 
-GC_Editor.DataGrid.prototype.getData=function() {
+GC_Editor.DataGrid.prototype.getComponentData=function() {
 	var data=[];
 	var rowscount = $(this.element).jqxGrid('getdatainformation').rowscount;
+
 
 
 	if(rowscount) {
 		var data = $(this.element).jqxGrid('exportdata', 'json');
 	}
 
-
 	var graphData=[];
-
 	var graphData=JSON.parse(data);
 
 
-	var chartData=[];
+	var data=[];
 
 	for(var i=0; i<graphData.length; i++) {
 		if(graphData[i]['Valeurs X']) {
 			var value = parseFloat(graphData[i]['Valeurs Y']);
 			var caption = graphData[i]['Valeurs X'];
-		}
 
-		chartData.push({
-			value: value,
-			color:"#F7464A",
-			highlight: "#FF5A5E",
-			label: caption
-		})
+			data.push({
+				value: value,
+				label: caption
+			});
+		}
 	}
-	return chartData;
+	return data;
 }
 
 
@@ -145,14 +142,15 @@ GC_Editor.DataGrid.prototype.getDatasource=function() {
 
 	var data=[{},{},{},{},{}];
 
-	if(typeof(this.data)!=='undefined') {
-		if (Array.isArray(this.data.data)) {
 
+
+	if(typeof(this.componentData)!=='undefined') {
+		if (Array.isArray(this.componentData)) {
 			var data = [];
-			for (var i = 0; i < this.data.data.length; i++) {
+			for (var i = 0; i < this.componentData.length; i++) {
 				data.push({
-					x: this.data.data[i].label,
-					y: this.data.data[i].value
+					x: this.componentData[i].label,
+					y: this.componentData[i].value
 				});
 			}
 		}
@@ -235,18 +233,46 @@ GC_Editor.DataGrid.prototype.getElement=function() {
 }
 
 
+GC_Editor.inherit(GC_Editor.DataGrid, GC_Editor.ComponentContainer);
+
+
 //===========================================================================
 //===========================================================================
 
-GC_Editor.prototype.openDataGridPopup=function(componentContainer, componentData) {
+GC_Editor.prototype.openDataGridPopup=function(component) {
 
 
 	var datagrid=new GC_Editor.DataGrid(this);
-	datagrid.loadData(componentData);
+	if(typeof(component)!=='undefined') {
+		datagrid.loadComponentData(component.getComponentData());
+	}
 
 	var datagridElement=datagrid.getElement();
 
 	this.popup.open(datagridElement)
 
-
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

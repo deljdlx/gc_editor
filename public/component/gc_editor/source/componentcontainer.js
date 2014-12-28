@@ -1,62 +1,16 @@
-GC_Editor.ComponentContainer=function(editor, content, data) {
+GC_Editor.ComponentContainer=function(editor) {
 	this.editor=editor;
 	
-	this.redrawInterval=null;
 
-	this.element=null;
-	this.container=null;
-	this.content=content;
-
-	this.data=data;
-	this.element=content;
-
-	this.component=null;	
 }
 
-/*
-GC_Editor.ComponentContainer.GC_EditorComponentContainer(editor, content, data)
-{
-	this.editor=editor;
-	
-	this.redrawInterval=null;
+GC_Editor.ComponentContainer.data=null;
+GC_Editor.ComponentContainer.componentData=null;
+GC_Editor.ComponentContainer.element=null;
+GC_Editor.ComponentContainer.redrawInterval=null;
 
-	this.element=null;
-	this.container=null;
-	this.content=content;
-
-	this.data=data;
-	this.element=content;
-
-	this.component=null;
-}
-*/
-
-
-GC_Editor.ComponentContainer.prototype.loadFromNode=function(node) {
-	this.container=node;
-
-	this.element=this.container.querySelector('.gc_editor_component');
-
-
-	this.data=JSON.parse(this.element.getAttribute('data-component'));
-
-	var builderClassName=this.data.builder;
-
-
-	this.component=new window['GC_Editor'][builderClassName](this.editor);
-
-	this.component.setComponentContainer(this);
-	this.component.loadData(this.data.data);
-
-	this.component.loadFromComponent();
-
-
-	this.initializePollRedraw();
-
-	this.container.onclick=function() {
-		this.editor.popup.openComponent(this);
-	}.bind(this);
-
+GC_Editor.ComponentContainer.getComponentDescriptor=function() {
+	return {};
 }
 
 
@@ -67,53 +21,110 @@ GC_Editor.ComponentContainer.prototype.updateData=function(data) {
 	}
 }
 
+
+GC_Editor.ComponentContainer.prototype.loadData=function(data) {
+	this.data=data;
+	this.loadComponentData(data.data);
+}
+
+GC_Editor.ComponentContainer.prototype.loadComponentData=function(data) {
+	this.componentData=data;
+}
+
+GC_Editor.ComponentContainer.prototype.getData=function() {
+	return this.data;
+}
+
+GC_Editor.ComponentContainer.prototype.getComponentData=function() {
+	return this.componentData;
+}
+
+
+
+
 GC_Editor.ComponentContainer.prototype.initializePollRedraw=function() {
 
-	this.lastHeight=this.container.offsetHeight;
-	this.lastWidth=this.container.offsetWidth;
+	this.lastHeight=this.element.offsetHeight;
+	this.lastWidth=this.element.offsetWidth;
 
 	if(!this.redrawInterval) {
 		this.redrawInterval = setInterval(function () {
 
-			if(this.lastHeight!=this.container.offsetHeight || this.lastWidth!=this.container.offsetWidth) {
-				if(typeof(this.component.onResize)!='undefined') {
-					this.component.onResize(
-						this.container.offsetWidth,
-						this.container.offsetHeight
+			if(this.lastHeight!=this.element.offsetHeight || this.lastWidth!=this.element.offsetWidth) {
+				if(typeof(this.onResize)!='undefined') {
+
+					this.onResize(
+						this.element.offsetWidth,
+						this.element.offsetHeight
 					);
 				}
 			}
-			this.lastHeight=this.container.offsetHeight;
-			this.lastWidth=this.container.offsetWidth;
+			this.lastHeight=this.element.offsetHeight;
+			this.lastWidth=this.element.offsetWidth;
 
 		}.bind(this), 100);
 	}
 }
 
 
+GC_Editor.ComponentContainer.prototype.onResize=function() {
+	return this;
+}
+
+
 GC_Editor.ComponentContainer.prototype.getElement=function() {
-	if(!this.container) {
-		this.container=document.createElement('div');
-		this.container.className='gc_editor_componentcontainer';
-			this.element=document.createElement('div');
-			this.element.className='gc_editor_component';
-			this.element.setAttribute('contenteditable', false);
-			this.element.appendChild(this.content);
-
-			this.element.setAttribute('data-component', JSON.stringify(this.data));
-
-		this.container.setAttribute('draggable', true);
-		this.container.setAttribute('contenteditable', false);
-		this.container.appendChild(this.element);
+	if(!this.element) {
+		this.element=document.createElement('div');
+		this.element.className='gc_editor_componentcontainer';
 
 
+		this.element.setAttribute('draggable', true);
+		this.element.setAttribute('contenteditable', false);
 
-		this.container.onclick=function() {
+		this.element.setAttribute('data-component', JSON.stringify(this.getComponentDescriptor()));
+
+		this.initializePollRedraw();
+	}
+
+
+	if(!this.element.onClick) {
+		this.element.onclick=function() {
 			this.editor.popup.openComponent(this);
 		}.bind(this);
 	}
 
-	this.initializePollRedraw();
 
-	return this.container;
+
+	return this.element;
 }
+
+
+GC_Editor.ComponentContainer.prototype.getContent=function() {
+
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
