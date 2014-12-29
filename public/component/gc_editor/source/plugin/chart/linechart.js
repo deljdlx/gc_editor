@@ -55,7 +55,7 @@ GC_Editor.LineChart.prototype.getComponentDescriptor=function() {
 		graphType: 'graphline',
 		data: this.componentData,
 		method: 'openDataGridPopup',
-		builder: 'LineChart'
+		instanceOf: 'LineChart'
 	};
 }
 
@@ -66,7 +66,7 @@ GC_Editor.LineChart.prototype.getComponentDescriptor=function() {
 
 
 
-GC_Editor.inherit(GC_Editor.LineChart, GC_Editor.Chart);
+GC.inherit(GC_Editor.LineChart, GC_Editor.Chart);
 
 
 

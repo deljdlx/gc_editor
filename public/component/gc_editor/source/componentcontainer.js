@@ -1,16 +1,24 @@
 GC_Editor.ComponentContainer=function(editor) {
 	this.editor=editor;
-	
+
+	this.element=null;
+
+	this.data=null;
+	this.componentData=null;
+	this.redrawInterval=null;
 
 }
 
-GC_Editor.ComponentContainer.data=null;
-GC_Editor.ComponentContainer.componentData=null;
-GC_Editor.ComponentContainer.element=null;
-GC_Editor.ComponentContainer.redrawInterval=null;
+
+
 
 GC_Editor.ComponentContainer.getComponentDescriptor=function() {
 	return {};
+}
+
+
+GC_Editor.ComponentContainer.prototype.setElement=function(element) {
+	this.element=element;
 }
 
 
@@ -39,7 +47,10 @@ GC_Editor.ComponentContainer.prototype.getComponentData=function() {
 	return this.componentData;
 }
 
-
+GC_Editor.ComponentContainer.prototype.destroy=function() {
+	clearInterval(this.redrawInterval);
+	jQuery(this.element.remove());
+}
 
 
 GC_Editor.ComponentContainer.prototype.initializePollRedraw=function() {
@@ -50,15 +61,19 @@ GC_Editor.ComponentContainer.prototype.initializePollRedraw=function() {
 	if(!this.redrawInterval) {
 		this.redrawInterval = setInterval(function () {
 
-			if(this.lastHeight!=this.element.offsetHeight || this.lastWidth!=this.element.offsetWidth) {
-				if(typeof(this.onResize)!='undefined') {
+			if(typeof(this.element.parentNode)!=='undefined') {
 
-					this.onResize(
-						this.element.offsetWidth,
-						this.element.offsetHeight
-					);
+				if (this.lastHeight != this.element.offsetHeight || this.lastWidth != this.element.offsetWidth) {
+
+					if (typeof(this.onResize) != 'undefined') {
+						this.onResize(
+							this.element.offsetWidth,
+							this.element.offsetHeight
+						);
+					}
 				}
 			}
+
 			this.lastHeight=this.element.offsetHeight;
 			this.lastWidth=this.element.offsetWidth;
 
@@ -72,6 +87,10 @@ GC_Editor.ComponentContainer.prototype.onResize=function() {
 }
 
 
+GC_Editor.ComponentContainer.prototype.serializeDomData=function(element) {
+	this.element.setAttribute('data-component', JSON.stringify(this.getComponentDescriptor()));
+}
+
 GC_Editor.ComponentContainer.prototype.getElement=function() {
 	if(!this.element) {
 		this.element=document.createElement('div');
@@ -81,10 +100,14 @@ GC_Editor.ComponentContainer.prototype.getElement=function() {
 		this.element.setAttribute('draggable', true);
 		this.element.setAttribute('contenteditable', false);
 
-		this.element.setAttribute('data-component', JSON.stringify(this.getComponentDescriptor()));
+		this.editor.insertNodeAtCaret(this.element);
+	}
 
+	if(!this.redrawInterval) {
 		this.initializePollRedraw();
 	}
+
+	this.serializeDomData(this.element);
 
 
 	if(!this.element.onClick) {
@@ -93,16 +116,10 @@ GC_Editor.ComponentContainer.prototype.getElement=function() {
 		}.bind(this);
 	}
 
-
-
 	return this.element;
 }
 
 
-GC_Editor.ComponentContainer.prototype.getContent=function() {
-
-
-}
 
 
 

@@ -101,6 +101,11 @@
 
 <link type='text/css' href='component/gc_editor/css/editor.css' rel='stylesheet' media='screen' />
 
+
+<script src="component/FileDrop/source/filedrop.js"></script>
+
+
+<script src="component/gc_editor/source/gc.js"></script>
 <script src="component/gc_editor/source/gc_editor.js"></script>
 <script src="component/gc_editor/source/componentmanager.js"></script>
 
@@ -117,9 +122,12 @@
 <script src="component/gc_editor/source/plugin/chart/linechart.js"></script>
 <script src="component/gc_editor/source/plugin/chart/piechart.js"></script>
 
+<script src="component/gc_editor/source/plugin/draganddrop/draganddrop.js"></script>
+<script src="component/gc_editor/source/plugin/image/imagedraganddrop.js"></script>
 
 
-<script src="FileDrop/source/filedrop.js"></script>
+
+
 
 
 
@@ -300,22 +308,28 @@ p {
 	<div id="editor">
 
 
-		<br/>
-		<div class="gc_editor_componentcontainer" draggable="true" contenteditable="false">
-			<div class="gc_editor_component" contenteditable="false" data-component="{&quot;type&quot;:&quot;datagrid&quot;,&quot;graphType&quot;:&quot;graphline&quot;,&quot;data&quot;:[{&quot;value&quot;:-10,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Janvier&quot;},{&quot;value&quot;:-15,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Février&quot;},{&quot;value&quot;:0,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Mars&quot;},{&quot;value&quot;:10,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Avril&quot;},{&quot;value&quot;:12,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Mai&quot;},{&quot;value&quot;:15,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Juin&quot;},{&quot;value&quot;:22,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Juillet&quot;},{&quot;value&quot;:30,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Août&quot;},{&quot;value&quot;:28,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Septembre&quot;},{&quot;value&quot;:15,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Octobre&quot;},{&quot;value&quot;:10,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Novembre&quot;},{&quot;value&quot;:0,&quot;color&quot;:&quot;#F7464A&quot;,&quot;highlight&quot;:&quot;#FF5A5E&quot;,&quot;label&quot;:&quot;Décembre&quot;}],&quot;method&quot;:&quot;openDataGridPopup&quot;,&quot;instanceOf&quot;:&quot;LineChart&quot;}"
-				 style="height: 100%; width: 100%;">
-				<div style="width: 100%; height: 100%;">
-					<canvas></canvas>
-				</div>
-			</div>
+		<div class="gc_editor_componentcontainer" draggable="true" contenteditable="false"
+			 data-component="{&quot;type&quot;:&quot;datagrid&quot;,&quot;graphType&quot;:&quot;graphpie&quot;,&quot;data&quot;:[{&quot;value&quot;:4,&quot;label&quot;:&quot;q&quot;},{&quot;value&quot;:4,&quot;label&quot;:&quot;gsg&quot;},{&quot;value&quot;:1,&quot;label&quot;:&quot;sgbh&quot;},{&quot;value&quot;:7,&quot;label&quot;:&quot;h&quot;},{&quot;value&quot;:8,&quot;label&quot;:&quot;hds&quot;}],&quot;method&quot;:&quot;openDataGridPopup&quot;,&quot;instanceOf&quot;:&quot;PieChart&quot;}">
+			<canvas height="150" width="300" style="height: 150px; width: 300px;"></canvas>
+		</div> coucou
+		<p>
+			hello world
+		</p>
+		<!--
+		<div class="gc_editor_componentcontainer" draggable="true" contenteditable="false"
+			 data-component="{&quot;type&quot;:&quot;datagrid&quot;,&quot;graphType&quot;:&quot;graphpie&quot;,&quot;data&quot;:[{&quot;value&quot;:7,&quot;label&quot;:&quot;sf&quot;},{&quot;value&quot;:4,&quot;label&quot;:&quot;fg&quot;}],&quot;method&quot;:&quot;openDataGridPopup&quot;,&quot;instanceOf&quot;:&quot;PieChart&quot;}">
+			<canvas height="150" width="300" style="height: 150px; width: 300px;"></canvas>
 		</div>
-		<br/>
-
-
+		//-->
 
 
 	</div>
 </div>
+
+
+<!--
+
+//-->
 
 
 
@@ -353,6 +367,11 @@ var editor=new GC_Editor(document.getElementById('editor'), {
 	}
 })
 
+var imageDragAndDrop=new GC_Editor.ImageDragAndDrop(editor);
+
+
+
+
 
 
 
@@ -376,65 +395,6 @@ editor.getLeftToolbar().addButton(button);
 
 
 
-
-
-
-
-
-var WorkspaceConfiguration={
-	imageUploadURL: './bootstrap.php?action=post'
-}
-
-
-
-var dropZone=document.getElementById('editor');
-var uploadURL=WorkspaceConfiguration.imageUploadURL;
-
-
-var drop =new FileDrop(dropZone, uploadURL, {
-	success: function(string) {
-
-		var data=JSON.parse(string);
-
-
-		for(var i=0; i<data.length; i++) {
-
-			var uri=data[i].uri;
-
-			editor.openAttributePopup({
-				align: {
-					caption:'Alignement',
-					type: 'select',
-					values: [
-						{caption: 'Aucun', value: ''},
-						{caption: 'Gauche', value: 'left'},
-						{caption: 'Droite', value: 'right'},
-						{caption: 'Base', value: 'baseline'}
-					]
-				},
-				'title': {
-					caption: 'Titre',
-					type: 'string'
-				}
-			}, function(values, editor) {
-
-					var image = document.createElement('img');
-					image.setAttribute('draggable', 'true');
-					image.setAttribute('src', uri);
-					image.setAttribute('title', values.title);
-					image.setAttribute('align', values.align);
-
-					image.style.resize='both';
-					editor.insertNodeAtCaret(image)
-
-
-					editor.closeAttributePopup();
-			}, function() {
-				editor.closeAttributePopup();
-			});
-		}
-	}
-});
 
 
 

@@ -33,7 +33,7 @@ GC_Editor.PieChart.prototype.getComponentDescriptor=function() {
 		graphType: 'graphpie',
 		data: this.componentData,
 		method: 'openDataGridPopup',
-		builder: 'PieChart'
+		instanceOf: 'PieChart'
 	};
 }
 
@@ -43,7 +43,7 @@ GC_Editor.PieChart.prototype.getChartType=function() {
 }
 
 
-GC_Editor.inherit(GC_Editor.PieChart, GC_Editor.Chart);
+GC.inherit(GC_Editor.PieChart, GC_Editor.Chart);
 
 
 

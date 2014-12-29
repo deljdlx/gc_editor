@@ -5,6 +5,7 @@ GC_Editor.ComponentManager=function(editor) {
 
 
 GC_Editor.ComponentManager.prototype.getComponentFromElement=function(element) {
+
 	var componentData=this.extractDataFromElement(element);
 
 	var componentInstanceName=componentData.instanceOf;
@@ -17,9 +18,9 @@ GC_Editor.ComponentManager.prototype.getComponentFromElement=function(element) {
 
 
 	element.innerHTML='';
-	componentInstance.element=element;
+	componentInstance.setElement(element);
 
-	componentInstance.initializePollRedraw();
+	//componentInstance.initializePollRedraw();
 
 
 	return componentInstance;
@@ -29,9 +30,7 @@ GC_Editor.ComponentManager.prototype.getComponentFromElement=function(element) {
 
 
 GC_Editor.ComponentManager.prototype.extractDataFromElement=function(element) {
-	//console.debug(element);
-	var dataNode=element.querySelector('.gc_editor_component');
-	var data=JSON.parse(dataNode.getAttribute('data-component'));
+	var data=JSON.parse(element.getAttribute('data-component'));
 	return data;
 }
 

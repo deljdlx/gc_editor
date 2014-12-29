@@ -1,11 +1,9 @@
 GC_Editor.DataGrid=function(editor)
 {
-
-	this.element=null;
 	this.editor=editor;
+	this.renderer=null;
 }
 
-GC_Editor.DataGrid.prototype.componentData=null;
 
 
 
@@ -68,10 +66,10 @@ GC_Editor.DataGrid.prototype.getToolbar=function() {
 
 
 		saveButton.onclick=function() {
-			var chartData=this.getComponentData();
 
-			this.createPieChart(chartData);
 			//this.createLineChart(chartData);
+
+			this.render();
 
 			this.editor.closePopup();
 		}.bind(this);
@@ -84,6 +82,16 @@ GC_Editor.DataGrid.prototype.getToolbar=function() {
 }
 
 
+GC_Editor.DataGrid.prototype.render=function() {
+	if(this.renderer) {
+		this.renderer.loadComponentData(this.getComponentData());
+		this.renderer.create();
+	}
+	else {
+		this.createPieChart(this.getComponentData());
+	}
+}
+
 
 GC_Editor.DataGrid.prototype.createLineChart=function(chartData) {
 	var chart=new GC_Editor.LineChart(this.editor);
@@ -93,8 +101,6 @@ GC_Editor.DataGrid.prototype.createLineChart=function(chartData) {
 }
 
 GC_Editor.DataGrid.prototype.createPieChart=function(chartData) {
-
-
 
 	var chart=new GC_Editor.PieChart(this.editor);
 	chart.loadComponentData(chartData);
@@ -181,6 +187,11 @@ GC_Editor.DataGrid.prototype.getDatasource=function() {
 }
 
 
+GC_Editor.DataGrid.prototype.setRenderer=function(renderingComponent) {
+	this.renderer=renderingComponent;
+	return this;
+}
+
 
 GC_Editor.DataGrid.prototype.create=function() {
 
@@ -233,7 +244,7 @@ GC_Editor.DataGrid.prototype.getElement=function() {
 }
 
 
-GC_Editor.inherit(GC_Editor.DataGrid, GC_Editor.ComponentContainer);
+GC.inherit(GC_Editor.DataGrid, GC_Editor.ComponentContainer);
 
 
 //===========================================================================
@@ -245,6 +256,7 @@ GC_Editor.prototype.openDataGridPopup=function(component) {
 	var datagrid=new GC_Editor.DataGrid(this);
 	if(typeof(component)!=='undefined') {
 		datagrid.loadComponentData(component.getComponentData());
+		datagrid.setRenderer(component);
 	}
 
 	var datagridElement=datagrid.getElement();

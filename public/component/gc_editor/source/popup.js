@@ -24,7 +24,6 @@ GC_Editor.Popup.prototype.openComponent=function(component) {
 
 	this.editor[popupMethod](component);
 
-	//alert(popupMethod);
 
 }
 
@@ -40,26 +39,31 @@ GC_Editor.Popup.prototype.openAttribute=function(descriptor, callbackOk, callbac
 
 	container.editor=this;
 
+	if(typeof(descriptor.prepend)!='undefined') {
+		container.appendChild(descriptor.prepend)
+	}
 
-	for(var attribute in descriptor) {
+
+
+	for(var attribute in descriptor.attributes) {
 		var inputContainer=document.createElement('div');
 		inputContainer.className='gc_editor_attribute';
 
 
 		var label=document.createElement('label');
-		label.innerHTML=descriptor[attribute].caption;
+		label.innerHTML=descriptor.attributes[attribute].caption;
 		inputContainer.appendChild(label);
 
 
-		if(Array.isArray(descriptor[attribute].values)) {
+		if(Array.isArray(descriptor.attributes[attribute].values)) {
 			var select=document.createElement('select');
 			select.setAttribute('name', attribute);
 			select.className='gc_editor_attribute_value';
 
-			for(var i=0; i<descriptor[attribute].values.length; i++) {
+			for(var i=0; i<descriptor.attributes[attribute].values.length; i++) {
 				var option=document.createElement('option');
-				option.innerHTML=descriptor[attribute].values[i].caption;
-				option.value=descriptor[attribute].values[i].value;
+				option.innerHTML=descriptor.attributes[attribute].values[i].caption;
+				option.value=descriptor.attributes[attribute].values[i].value;
 				select.appendChild(option);
 			}
 			inputContainer.appendChild(select);
@@ -105,10 +109,14 @@ GC_Editor.Popup.prototype.openAttribute=function(descriptor, callbackOk, callbac
 
 
 
+	if(typeof(descriptor.append)!='undefined') {
+		container.appendChild(descriptor.append)
+	}
+
+
+
 	buttonContainer.appendChild(cancelButton);
-
 	buttonContainer.appendChild(okButton);
-
 	container.appendChild(buttonContainer);
 
 	this.open(container);
